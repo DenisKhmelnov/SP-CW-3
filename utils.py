@@ -5,7 +5,7 @@ def get_posts_all() -> list[dict]:
     """
     :return: Возвращает все посты
     """
-    with open("data_storage/data.json") as file:
+    with open("data_storage/data.json", encoding="utf-8") as file:
         posts_list = json.load(file)
         return posts_list
 
@@ -25,7 +25,7 @@ def get_comments_by_post_id(post_id) -> list[dict]:
     :param post_id: номер поста
     :return: лист с комментариями, которые написаны к искомому посту с заданным номером
     """
-    with open("data_storage/comments.json") as file:
+    with open("data_storage/comments.json", encoding="utf-8") as file:
         all_comments = json.load(file)
 
     post_comments = [comment for comment in all_comments if comment["post_id"] == post_id]
