@@ -1,4 +1,5 @@
 import json
+from utils import get_posts_all
 
 
 def get_bookmarks() -> list[int]:
@@ -20,3 +21,13 @@ def delete_bookmark(bookmark: int):
         if bookmark in bookmarks:
             bookmarks.remove(bookmark)
         json.dump(bookmarks, file)
+
+
+def load_bookmarks_posts() -> list[dict]:
+    bookmark_posts = []
+    bookmarks = get_bookmarks()
+    posts = get_posts_all()
+    for post in posts:
+        if post["pk"] in bookmarks:
+            bookmark_posts.append(post)
+    return bookmark_posts

@@ -1,5 +1,5 @@
-from flask import Blueprint, redirect
-from bookmarks.dao.bookmarks_dao import add_bookmark, delete_bookmark
+from flask import Blueprint, redirect, render_template
+from bookmarks.dao.bookmarks_dao import load_bookmarks_posts, add_bookmark, delete_bookmark
 
 bookmarks_blueprint = Blueprint('bookmarks_blueprint', __name__, template_folder="templates")
 
@@ -14,3 +14,9 @@ def save_bookmark(postid):
 def remove_bookmark(postid):
     delete_bookmark(postid)
     return redirect("/", code=302)
+
+
+@bookmarks_blueprint.route("/bookmarks")
+def show_bookmarks():
+    posts = load_bookmarks_posts()
+    return render_template("bookmarks.html", posts=posts)
