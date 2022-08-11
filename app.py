@@ -1,5 +1,6 @@
 from flask import Flask, jsonify
 from main.views import main_blueprint
+from bookmarks.views import bookmarks_blueprint
 from logs.log import logger_api
 import utils
 
@@ -12,7 +13,7 @@ app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
 
 
 app.register_blueprint(main_blueprint)
-
+app.register_blueprint(bookmarks_blueprint)
 
 
 ## Обработчики ошибок
