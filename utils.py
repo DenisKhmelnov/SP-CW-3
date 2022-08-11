@@ -1,13 +1,14 @@
 import json
 
 
-def get_posts_all() -> list[dict]:
+def get_posts_all():
     """
     :return: Возвращает все посты
     """
     with open("data_storage/data.json", encoding="utf-8") as file:
         posts_list = json.load(file)
-        return posts_list
+        return [parse_hash_tag(post) for post in posts_list]
+
 
 
 def get_posts_by_user(user_name) -> list[dict]:
@@ -51,3 +52,33 @@ def get_post_by_pk(pk) -> dict:
     for post in posts:
         if post["pk"] == pk:
             return post
+
+
+def parse_hash_tag(post: dict):
+    """
+    :param post:
+    :return: возвращает пост, где хэштеги заменены на html ссылку
+    """
+    words_list = post["content"].split(" ")
+    parsed_content = []
+    for word in words_list:
+        if word.startswith("#"):
+            html_replacement = f'<a href="/tag/{word[1:]}">{word}</a>'
+            parsed_content.append(html_replacement)
+        else:
+            parsed_content.append(word)
+    post["content"] = " ".join(parsed_content)
+    return post
+
+
+def get_posts_by_tag(tag):
+    """
+    :param tag:
+    :return: возвращает посты, в которых встречается искомый тэг
+    """
+    tagged_posts=[]
+    posts = get_posts_all()
+    for post in posts:
+        if tag in post["content"]:
+            tagged_posts.append(post)
+    return tagged_posts
