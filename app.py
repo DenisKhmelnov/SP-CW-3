@@ -1,7 +1,8 @@
 from flask import Flask, jsonify
-
-import utils
 from main.views import main_blueprint
+from logs.log import logger_api
+import utils
+
 
 app = Flask(__name__)
 
@@ -32,6 +33,7 @@ def all_posts():
     """
     :return: возвращает json со всеми постами
     """
+    logger_api.info("Запрошен /api/posts")
     posts = utils.get_posts_all()
     return jsonify(posts)
 
@@ -41,6 +43,7 @@ def single_post(post_id):
     :param post_id:
     :return: возвращает искомый пост в формате json
     """
+    logger_api.info(f"Запрошен /api/posts/{post_id}")
     post = utils.get_post_by_pk(post_id)
     return jsonify(post)
 
