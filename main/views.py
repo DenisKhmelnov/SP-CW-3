@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, request
+from bookmarks.dao.bookmarks_dao import get_bookmarks
 import utils
 
 main_blueprint = Blueprint('main_blueprint', __name__, template_folder="templates")
@@ -10,7 +11,8 @@ def page_index():
     :return: главная страница со всеми постами
     """
     posts = utils.get_posts_all()
-    return render_template("index.html", posts=posts)
+    bookmarks = get_bookmarks()
+    return render_template("index.html", posts=posts, bookmarks_counter=len(bookmarks))
 
 
 @main_blueprint.route("/posts/<int:postid>/")
@@ -31,7 +33,7 @@ def page_search():
     """
     subs = request.args.get("s")
     matched_posts = utils.search_for_posts(subs)[:10]
-    return render_template("search.html", posts=matched_posts, posts_count=len(matched_posts))
+    return render_template("search.html", posts=matched_posts, posts_count=len(matched_posts), search_str = subs)
 
 
 @main_blueprint.route("/users/<username>")
