@@ -1,0 +1,11 @@
+[Unit]
+Description=Flask app service
+After=network.target
+
+[Service]
+WorkingDirectory=/home/dkhmelnov/hw25
+Environment=FLASK_RUN=app.py
+ExecStart=/home/dkhmelnov/hw25/venv/bin/python -m flask run -h 0.0.0.0 -p 25000
+
+[Install]
+WantedBy=multi-user.target
